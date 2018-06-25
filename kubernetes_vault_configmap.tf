@@ -6,8 +6,8 @@ resource "kubernetes_secret" "vault_tls" {
   }
 
   data {
-    "vault.crt" = "${tls_locally_signed_cert.vault.cert_pem}\n${tls_self_signed_cert.vault_ca.cert_pem}"
-    "vault.key" = "${tls_private_key.vault.private_key_pem}"
+    "vault.crt" = "${coalesce(local.decoded_tls_cert, local.generated_tls_cert_chain)}"
+    "vault.key" = "${coalesce(local.decoded_tls_key, local.generated_tls_key)}"
   }
 }
 

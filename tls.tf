@@ -1,10 +1,13 @@
 # Generate self-signed TLS certificates.
 resource "tls_private_key" "vault_ca" {
+  count     = "${local.create_tls_resources}"
   algorithm = "RSA"
   rsa_bits  = "2048"
 }
 
 resource "tls_self_signed_cert" "vault_ca" {
+  count = "${local.create_tls_resources}"
+
   key_algorithm   = "${tls_private_key.vault_ca.algorithm}"
   private_key_pem = "${tls_private_key.vault_ca.private_key_pem}"
 
@@ -29,6 +32,8 @@ resource "tls_self_signed_cert" "vault_ca" {
 
 # Create the Vault server certificates
 resource "tls_private_key" "vault" {
+  count = "${local.create_tls_resources}"
+
   algorithm = "RSA"
   rsa_bits  = "2048"
 
@@ -39,6 +44,8 @@ resource "tls_private_key" "vault" {
 
 # Create the request to sign the cert with our CA
 resource "tls_cert_request" "vault" {
+  count = "${local.create_tls_resources}"
+
   key_algorithm   = "${tls_private_key.vault.algorithm}"
   private_key_pem = "${tls_private_key.vault.private_key_pem}"
 
@@ -62,6 +69,8 @@ resource "tls_cert_request" "vault" {
 
 # Now sign the cert
 resource "tls_locally_signed_cert" "vault" {
+  count = "${local.create_tls_resources}"
+
   cert_request_pem = "${tls_cert_request.vault.cert_request_pem}"
 
   ca_key_algorithm   = "${tls_private_key.vault_ca.algorithm}"

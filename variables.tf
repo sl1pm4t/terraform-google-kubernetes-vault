@@ -70,3 +70,13 @@ variable vault_replica_count {
   description = "The number of vault replicas to deploy"
   default     = "3"
 }
+
+variable vault_tls_cert {
+  description = "The Base64 encoded TLS certificate for vault server. If none is supplied, a CA will be created and to sign a generated certificate."
+  default     = ""
+}
+
+variable vault_tls_key {
+  description = "The Base64 encoded TLS key for vault server. If none is supplied, a private key will be generated."
+  default     = ""
+}

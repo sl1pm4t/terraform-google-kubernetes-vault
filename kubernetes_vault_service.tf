@@ -10,7 +10,7 @@ resource kubernetes_service vault {
 
   spec {
     type             = "LoadBalancer"
-    load_balancer_ip = "${google_compute_address.vault.address}"
+    load_balancer_ip = "${coalesce(var.vault_load_balancer_ip, join("",google_compute_address.vault.*.address))}"
 
     selector {
       app = "vault"

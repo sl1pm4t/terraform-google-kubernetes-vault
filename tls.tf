@@ -25,9 +25,16 @@ resource "tls_self_signed_cert" "vault_ca" {
     "key_encipherment",
   ]
 
-  provisioner "local-exec" {
-    command = "echo '${self.cert_pem}' > vault_ca.pem && chmod 0600 vault_ca.pem"
-  }
+  # provisioner "local-exec" {
+  #   command = "echo '${self.cert_pem}' > vault_ca.pem && chmod 0600 vault_ca.pem"
+  # }
+}
+
+resource local_file vault_ca {
+  count = "${local.create_tls_resources}"
+
+  filename = "vault_ca.pem"
+  contents = "${tls_self_signed_cert.vault_ca.cert_pem}"
 }
 
 # Create the Vault server certificates

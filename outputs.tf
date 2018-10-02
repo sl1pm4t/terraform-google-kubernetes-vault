@@ -6,7 +6,7 @@ output "address" {
   value = "${coalesce(var.vault_load_balancer_ip, join("", google_compute_address.vault.*.address))}"
 }
 
-data template_file env {
+data "template_file" "env" {
   template = <<EOF
   
 export VAULT_ADDR="https://$${addr}:8200"

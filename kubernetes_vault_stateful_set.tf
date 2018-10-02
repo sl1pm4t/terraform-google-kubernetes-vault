@@ -44,14 +44,23 @@ resource kubernetes_stateful_set vault {
         # }
         */
 
+        termination_grace_period_seconds = 10
+
         container {
           name              = "vault-init"
           image             = "${var.vault_init_image_repository}:${var.vault_init_image_tag}"
-          image_pull_policy = "IfNotPresent"
+          image_pull_policy = "Always"
+
+          resources {
+            requests {
+              cpu    = "100m"
+              memory = "64Mi"
+            }
+          }
 
           env {
             name  = "CHECK_INTERVAL"
-            value = "5"
+            value = "30"
           }
 
           env {
@@ -157,8 +166,8 @@ EOF
 
           resources {
             requests {
-              cpu    = "500m"
-              memory = "1Gi"
+              cpu    = "${var.vault_request_cpu}"
+              memory = "${var.vault_request_memory}"
             }
           }
 

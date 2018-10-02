@@ -30,11 +30,11 @@ resource "tls_self_signed_cert" "vault_ca" {
   # }
 }
 
-resource local_file vault_ca {
+resource "local_file" "vault_ca" {
   count = "${local.create_tls_resources}"
 
   filename = "vault_ca.pem"
-  contents = "${tls_self_signed_cert.vault_ca.cert_pem}"
+  content  = "${tls_self_signed_cert.vault_ca.cert_pem}"
 }
 
 # Create the Vault server certificates

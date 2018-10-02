@@ -95,3 +95,13 @@ variable vault_tls_key {
   description = "The Base64 encoded TLS key for vault server. If none is supplied, a private key will be generated."
   default     = ""
 }
+
+variable vault_request_cpu {
+  description = "Kubernetes CPU Request for Vault pods"
+  default = "500m"
+}
+
+variable vault_request_memory {
+  description = "Kubernetes Memory Request for Vault pods"
+  default = "1Gi"
+}

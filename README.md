@@ -34,6 +34,8 @@ Based on [Kelsey Hightower](https://github.com/kelseyhightower/vault-on-google-k
 | vault_load_balancer_fqdn | FQDN entry that points to the Vault Load Balancer | string | `` | no |
 | vault_load_balancer_ip | Reserved IP address that will be used by Vault Kubernetes Service | string | `` | no |
 | vault_replica_count | The number of vault replicas to deploy | string | `3` | no |
+| vault_request_cpu | Kubernetes CPU Request for Vault pods | string | `500m` | no |
+| vault_request_memory | Kubernetes Memory Request for Vault pods | string | `1Gi` | no |
 | vault_tls_cert | The Base64 encoded TLS certificate for vault server. If none is supplied, a CA will be created and used to sign a generated certificate. | string | `` | no |
 | vault_tls_key | The Base64 encoded TLS key for vault server. If none is supplied, a private key will be generated. | string | `` | no |
 

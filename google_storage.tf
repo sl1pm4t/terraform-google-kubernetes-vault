@@ -8,6 +8,16 @@ resource "google_storage_bucket" "vault" {
   versioning {
     enabled = true
   }
+
+  lifecycle_rule {
+    action {
+      type = "delete"
+    }
+
+    condition {
+      num_newer_versions = 3
+    }
+  }
 }
 
 # Grant service account access to the storage bucket

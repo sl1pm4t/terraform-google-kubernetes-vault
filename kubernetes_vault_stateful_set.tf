@@ -26,23 +26,21 @@ resource kubernetes_stateful_set vault {
       }
 
       spec {
-        /* NOT SUPPORTED YET
-        # affinity {
-        #   pod_anti_affinity {
-        #     required_during_scheduling_ignored_during_execution {
-        #       label_selector {
-        #         match_expressions {
-        #           key      = "app"
-        #           operator = "In"
-        #           values   = ["vault"]
-        #         }
+        affinity {
+          pod_anti_affinity {
+            required_during_scheduling_ignored_during_execution {
+              label_selector {
+                match_expressions {
+                  key      = "app"
+                  operator = "In"
+                  values   = ["vault"]
+                }
+              }
 
-        #         topology_key = "kubernetes.io/hostname"
-        #       }
-        #     }
-        #   }
-        # }
-        */
+              topology_key = "kubernetes.io/hostname"
+            }
+          }
+        }
 
         termination_grace_period_seconds = 10
 

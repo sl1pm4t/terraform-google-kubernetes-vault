@@ -38,7 +38,8 @@ variable "google_storage_bucket_name" {
 }
 
 variable "google_storage_bucket_roles" {
-  type = "list"
+  description = "List of IAM roles that will be granted to the Vault Service Account on the GCS bucket."
+  type        = "list"
 
   default = [
     "roles/storage.legacyBucketReader",

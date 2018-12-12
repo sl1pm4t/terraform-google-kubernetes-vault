@@ -23,5 +23,5 @@ EOF
 }
 
 output "env" {
-  value = "${data.template_file.env.rendered}"
+  value = "${coalesce(data.template_file.env.rendered, "")}"
 }

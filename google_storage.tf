@@ -18,6 +18,10 @@ resource "google_storage_bucket" "vault" {
       num_newer_versions = 3
     }
   }
+
+  labels {
+    terraform-managed = "true"
+  }
 }
 
 # Grant service account access to the storage bucket

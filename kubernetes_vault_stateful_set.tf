@@ -110,26 +110,16 @@ resource kubernetes_stateful_set vault {
           }
 
           env {
-            name  = "LOAD_BALANCER_ADDR"
-            value = "${google_compute_address.vault.address}"
-          }
-
-          env {
-            name  = "GCS_BUCKET_NAME"
-            value = "${google_storage_bucket.vault.name}"
-          }
-
-          env {
             name = "VAULT_LOCAL_CONFIG"
 
             value = <<EOF
-api_addr     = "https://$(LOAD_BALANCER_ADDR)"
+api_addr     = "https://${local.load_balancer_address}"
 cluster_addr = "https://$(POD_IP_ADDR):8201"
 
 ui = true
 
 storage "gcs" {
-  bucket     = "$(GCS_BUCKET_NAME)"
+  bucket     = "${google_storage_bucket.vault.name}"
   ha_enabled = "true"
 }
 

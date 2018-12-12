@@ -82,8 +82,15 @@ variable vault_load_balancer_ip {
 }
 
 variable vault_replica_count {
-  description = "The number of vault replicas to deploy"
-  default     = "3"
+  type = "string"
+
+  description = <<EOF
+The number of vault replicas to deploy. 
+Anti-affinity rules spread pods across availablenodes. 
+Please use an odd number for better availability.
+EOF
+
+  default = "3"
 }
 
 variable vault_tls_cert {

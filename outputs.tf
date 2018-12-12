@@ -9,7 +9,7 @@ output "address" {
 data "template_file" "env" {
   template = <<EOF
   
-export VAULT_ADDR="https://$${addr}:8200"
+export VAULT_ADDR="https://$${addr}"
 export VAULT_TOKEN="$${token}"
 $${ca}
   

@@ -1,7 +1,7 @@
 # Create the vault service account
 resource "google_service_account" "vault_server" {
   count        = "${local.create_service_account}"
-  account_id   = "vault-server"
+  account_id   = "${local.vault_resource_name}"
   display_name = "Vault Server"
   project      = "${var.google_project}"
 }

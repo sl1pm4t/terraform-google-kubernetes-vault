@@ -58,7 +58,7 @@ variable vault_init_image_repository {
 
 variable vault_init_image_tag {
   description = "Docker image tag of 'vault-init' container"
-  default     = "0.1.0"
+  default     = "1.0.0"
 }
 
 variable vault_image_repository {
@@ -68,7 +68,7 @@ variable vault_image_repository {
 
 variable vault_image_tag {
   description = "Docker image tag of 'vault' container"
-  default     = "0.11.4"
+  default     = "1.0.0"
 }
 
 variable vault_load_balancer_fqdn {

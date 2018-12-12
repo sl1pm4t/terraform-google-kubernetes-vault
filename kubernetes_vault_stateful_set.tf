@@ -118,6 +118,14 @@ cluster_addr = "https://$(POD_IP_ADDR):8201"
 
 ui = true
 
+seal "gcpckms" {
+  disabled   = "false" # set to true during migration
+  project    = "${google_kms_key_ring.vault.project}"
+  region     = "${google_kms_key_ring.vault.location}"
+  key_ring   = "${google_kms_key_ring.vault.name}"
+  crypto_key = "${google_kms_crypto_key.vault_init.name}"
+}
+
 storage "gcs" {
   bucket     = "${google_storage_bucket.vault.name}"
   ha_enabled = "true"

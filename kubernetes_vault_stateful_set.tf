@@ -123,13 +123,16 @@ resource kubernetes_stateful_set vault {
             name = "VAULT_LOCAL_CONFIG"
 
             value = <<EOF
-api_addr     = "https://$(LOAD_BALANCER_ADDR):8200"
+api_addr     = "https://$(LOAD_BALANCER_ADDR)"
 cluster_addr = "https://$(POD_IP_ADDR):8201"
+
 ui = true
+
 storage "gcs" {
   bucket     = "$(GCS_BUCKET_NAME)"
   ha_enabled = "true"
 }
+
 listener "tcp" {
   address       = "0.0.0.0:8200"
   tls_cert_file = "/etc/vault/tls/vault.crt"

@@ -18,7 +18,7 @@ resource kubernetes_service vault {
 
     port {
       name        = "vault-port"
-      port        = 8200
+      port        = 443
       target_port = 8200
       protocol    = "TCP"
     }

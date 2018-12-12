@@ -11,7 +11,7 @@ resource "google_storage_bucket" "vault" {
 
   lifecycle_rule {
     action {
-      type = "delete"
+      type = "Delete"
     }
 
     condition {

@@ -18,11 +18,3 @@ data "google_kms_secret" "root_token" {
   crypto_key = "${google_kms_crypto_key.vault_init.id}"
   ciphertext = "${data.http.root_token.body}"
 }
-
-output "token" {
-  value = "${data.google_kms_secret.root_token.plaintext}"
-}
-
-output "token_decrypt_command" {
-  value = "gsutil cat gs://${google_storage_bucket.vault.name}/root-token.enc | base64 --decode | gcloud kms decrypt --project ${var.google_project} --location ${var.google_region} --keyring ${google_kms_key_ring.vault.name} --key ${google_kms_crypto_key.vault_init.name} --ciphertext-file - --plaintext-file -"
-}

@@ -49,44 +49,6 @@ resource kubernetes_stateful_set vault {
         termination_grace_period_seconds = 10
 
         container {
-          name              = "vault-init"
-          image             = "${var.vault_init_image_repository}:${var.vault_init_image_tag}"
-          image_pull_policy = "Always"
-
-          resources {
-            requests {
-              cpu    = "100m"
-              memory = "64Mi"
-            }
-          }
-
-          env {
-            name  = "CHECK_INTERVAL"
-            value = "30"
-          }
-
-          env {
-            name  = "GCS_BUCKET_NAME"
-            value = "${google_storage_bucket.vault.name}"
-          }
-
-          env {
-            name  = "KMS_KEY_ID"
-            value = "${google_kms_crypto_key.vault_init.id}"
-          }
-
-          env {
-            name  = "GOOGLE_APPLICATION_CREDENTIALS"
-            value = "/etc/vault/google/service-account.json"
-          }
-
-          volume_mount {
-            name       = "vault-service-account"
-            mount_path = "/etc/vault/google"
-          }
-        }
-
-        container {
           name              = "vault"
           image             = "${var.vault_image_repository}:${var.vault_image_tag}"
           image_pull_policy = "IfNotPresent"
@@ -135,6 +97,7 @@ listener "tcp" {
   address       = "0.0.0.0:8200"
   tls_cert_file = "/etc/vault/tls/vault.crt"
   tls_key_file  = "/etc/vault/tls/vault.key"
+  tls_disable_client_certs = "true"
 }
 EOF
           }
@@ -161,6 +124,11 @@ EOF
               path   = "/v1/sys/health?standbyok=true"
               port   = 8200
               scheme = "HTTPS"
+
+              http_header {
+                name  = "Host"
+                value = "${local.load_balancer_address}"
+              }
             }
 
             initial_delay_seconds = "5"
@@ -177,6 +145,44 @@ EOF
           volume_mount {
             name       = "vault-tls"
             mount_path = "/etc/vault/tls"
+          }
+
+          volume_mount {
+            name       = "vault-service-account"
+            mount_path = "/etc/vault/google"
+          }
+        }
+
+        container {
+          name              = "vault-init"
+          image             = "${var.vault_init_image_repository}:${var.vault_init_image_tag}"
+          image_pull_policy = "Always"
+
+          resources {
+            requests {
+              cpu    = "100m"
+              memory = "64Mi"
+            }
+          }
+
+          env {
+            name  = "CHECK_INTERVAL"
+            value = "30"
+          }
+
+          env {
+            name  = "GCS_BUCKET_NAME"
+            value = "${google_storage_bucket.vault.name}"
+          }
+
+          env {
+            name  = "KMS_KEY_ID"
+            value = "${google_kms_crypto_key.vault_init.id}"
+          }
+
+          env {
+            name  = "GOOGLE_APPLICATION_CREDENTIALS"
+            value = "/etc/vault/google/service-account.json"
           }
 
           volume_mount {

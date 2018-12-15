@@ -113,3 +113,8 @@ variable vault_request_memory {
   description = "Kubernetes Memory Request for Vault pods"
   default     = "256Mi"
 }
+
+variable vault_service_type {
+  description = "One of 'LoadBalancer', 'ClusterIP' OR 'NodePort'"
+  default     = "NodePort"
+}

@@ -1,4 +1,6 @@
-resource kubernetes_service vault {
+resource kubernetes_service vault_lb {
+  count = "${var.vault_service_type == "LoadBalancer" ? 1 : 0}"
+
   metadata {
     name      = "vault"
     namespace = "${var.kubernetes_namespace}"
@@ -19,6 +21,38 @@ resource kubernetes_service vault {
     port {
       name        = "vault-port"
       port        = 443
+      target_port = 8200
+      protocol    = "TCP"
+    }
+  }
+}
+
+resource kubernetes_service vault {
+  count = "${var.vault_service_type == "LoadBalancer" ? 0 : 1}"
+
+  metadata {
+    name      = "vault"
+    namespace = "${var.kubernetes_namespace}"
+
+    labels {
+      app = "vault"
+    }
+
+    annotations {
+      "cloud.google.com/app-protocols" = "{\"vault-port\":\"HTTPS\"}"
+    }
+  }
+
+  spec {
+    type = "${var.vault_service_type}"
+
+    selector {
+      app = "vault"
+    }
+
+    port {
+      name        = "vault-port"
+      port        = 8200
       target_port = 8200
       protocol    = "TCP"
     }

@@ -5,6 +5,10 @@ resource kubernetes_service vault_lb {
     name      = "vault"
     namespace = "${var.kubernetes_namespace}"
 
+    annotations {
+      "cloud.google.com/load-balancer-type" = "${var.vault_load_balancer_is_internal ? "Internal" : "External"}"
+    }
+
     labels {
       app = "vault"
     }

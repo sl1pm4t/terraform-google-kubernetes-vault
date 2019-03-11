@@ -13,7 +13,9 @@ resource kubernetes_stateful_set vault {
     replicas     = "${var.vault_replica_count}"
 
     selector {
-      app = "vault"
+      match_labels {
+        app = "vault"
+      }
     }
 
     template {
@@ -26,25 +28,11 @@ resource kubernetes_stateful_set vault {
       }
 
       spec {
-        affinity {
-          pod_anti_affinity {
-            preferred_during_scheduling_ignored_during_execution {
-              weight = 60
+        # affinity {  #   pod_anti_affinity {  #     preferred_during_scheduling_ignored_during_execution {  #       weight = 60
 
-              pod_affinity_term {
-                label_selector {
-                  match_expressions {
-                    key      = "app"
-                    operator = "In"
-                    values   = ["vault"]
-                  }
-                }
+        #       pod_affinity_term {  #         label_selector {  #           match_expressions {  #             key      = "app"  #             operator = "In"  #             values   = ["vault"]  #           }  #         }
 
-                topology_key = "kubernetes.io/hostname"
-              }
-            }
-          }
-        }
+        #         topology_key = "kubernetes.io/hostname"  #       }  #     }  #   }  # }
 
         termination_grace_period_seconds = 10
 

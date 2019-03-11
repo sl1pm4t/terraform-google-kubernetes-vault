@@ -69,7 +69,7 @@ variable vault_image_repository {
 
 variable vault_image_tag {
   description = "Docker image tag of 'vault' container"
-  default     = "1.0.0"
+  default     = "1.1.0-beta2"
 }
 
 variable vault_load_balancer_fqdn {
@@ -79,6 +79,16 @@ variable vault_load_balancer_fqdn {
 
 variable vault_load_balancer_ip {
   description = "Reserved IP address that will be used by Vault Kubernetes Service"
+  default     = ""
+}
+
+variable vault_load_balancer_is_internal {
+  description = "Set to true to create an Internal Load Balancer + IP Reservation"
+  default     = false
+}
+
+variable vault_load_balancer_ip_subnetwork {
+  description = "VPC Subnetwork name when IP will be reserved. Must be set when 'vault_load_balancer_type' == 'INTERNAL'."
   default     = ""
 }
 

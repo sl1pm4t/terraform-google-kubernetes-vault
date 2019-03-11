@@ -2,3 +2,5 @@
 **/terraform.tfstate*
 **/.terraform/*
 **/vault_ca.pem
+acceptance-test/unseal-keys.json*
+acceptance-test/vault-sa.json

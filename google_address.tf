@@ -5,6 +5,6 @@ resource "google_compute_address" "vault" {
   name         = "${local.vault_resource_name}-lb"
   region       = "${var.google_region}"
   project      = "${var.google_project}"
-  address_type = "${var.vault_load_balancer_is_internal ? "INTERNAL": ""}"
-  subnetwork   = "${var.vault_load_balancer_ip_subnetwork}"
+  address_type = "${var.vault_load_balancer_is_internal ? "INTERNAL": "EXTERNAL"}"
+  subnetwork   = "${var.vault_load_balancer_is_internal ? var.vault_load_balancer_ip_subnetwork : ""}"
 }

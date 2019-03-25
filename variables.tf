@@ -69,7 +69,7 @@ variable vault_image_repository {
 
 variable vault_image_tag {
   description = "Docker image tag of 'vault' container"
-  default     = "1.1.0-beta2"
+  default     = "1.1.0"
 }
 
 variable vault_load_balancer_fqdn {

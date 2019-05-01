@@ -16,7 +16,7 @@ $${ca}
 EOF
 
   vars {
-    addr  = "${google_compute_address.vault.address}"
+    addr  = "${local.load_balancer_address}"
     token = "${data.google_kms_secret.root_token.plaintext}"
     ca    = "${join("", formatlist("export VAULT_CAPATH=%s", local_file.vault_ca.*.filename))}"
   }

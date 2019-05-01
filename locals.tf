@@ -11,8 +11,8 @@ locals {
   load_balancer_address = "${coalesce(
       var.vault_load_balancer_fqdn,
       var.vault_load_balancer_ip,
-      google_compute_address.vault.address)
-    }"
+      join("", google_compute_address.vault.*.address)
+  )}"
 
   create_service_account = "${length(var.google_service_account_email) == 0 ? 1 : 0}"
   create_tls_resources   = "${length(var.vault_tls_cert) == 0 ? 1 : 0}"

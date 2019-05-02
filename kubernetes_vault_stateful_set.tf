@@ -165,7 +165,7 @@ EOF
 
           env {
             name  = "KMS_KEY_ID"
-            value = "${data.google_kms_crypto_key.vault_init.name}"
+            value = "${google_kms_crypto_key.vault_init.name}"
           }
 
           env {

@@ -28,12 +28,6 @@ resource kubernetes_stateful_set vault {
       }
 
       spec {
-        # affinity {  #   pod_anti_affinity {  #     preferred_during_scheduling_ignored_during_execution {  #       weight = 60
-
-        #       pod_affinity_term {  #         label_selector {  #           match_expressions {  #             key      = "app"  #             operator = "In"  #             values   = ["vault"]  #           }  #         }
-
-        #         topology_key = "kubernetes.io/hostname"  #       }  #     }  #   }  # }
-
         termination_grace_period_seconds = 10
 
         container {
@@ -82,7 +76,8 @@ storage "gcs" {
 }
 
 listener "tcp" {
-  address       = "0.0.0.0:8200"
+  address       = "${local.vault_listener}" 
+  tls_disable   = "${local.vault_disable_tls}"
   tls_cert_file = "/etc/vault/tls/vault.crt"
   tls_key_file  = "/etc/vault/tls/vault.key"
   tls_disable_client_certs = "true"
@@ -97,7 +92,7 @@ EOF
 
           port {
             container_port = 8200
-            name           = "https-vault"
+            name           = "${local.vault_protocol}-vault"
             protocol       = "TCP"
           }
 
@@ -111,7 +106,7 @@ EOF
             http_get {
               path   = "/v1/sys/health?standbyok=true"
               port   = 8200
-              scheme = "HTTPS"
+              scheme = "${local.vault_protocol_upper}"
 
               http_header {
                 name  = "Host"
@@ -171,6 +166,16 @@ EOF
           env {
             name  = "GOOGLE_APPLICATION_CREDENTIALS"
             value = "/etc/vault/google/service-account.json"
+          }
+
+          env {
+            name  = "VAULT_ADDR"
+            value = "${local.vault_protocol}://127.0.0.1:8200"
+          }
+
+          env {
+            name  = "VAULT_AUTO_UNSEAL"
+            value = "true"
           }
 
           volume_mount {

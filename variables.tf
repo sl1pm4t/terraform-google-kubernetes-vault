@@ -47,6 +47,11 @@ variable "google_storage_bucket_roles" {
   ]
 }
 
+variable "istio_mode" {
+  description = "Flag to indicate if Istio is enable for this deployment. With Istio sidecar injection Vault listens on plaintext HTTP only, and uses the Istio sidecar to encrypt traffic."
+  default     = false
+}
+
 variable kubernetes_namespace {
   description = "The Kubernetes namespace where Vault resources will be deployed."
   default     = "default"

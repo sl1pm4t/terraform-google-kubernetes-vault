@@ -27,3 +27,16 @@ locals {
   generated_tls_cert_chain = "${join("", tls_locally_signed_cert.vault.*.cert_pem)}\n${join("", tls_self_signed_cert.vault_ca.*.cert_pem)}"
   generated_tls_key        = "${join("", tls_private_key.vault.*.private_key_pem)}"
 }
+
+# Istio Support
+locals {
+  vault_protocol       = "${var.istio_mode ? "http" : "https"}"
+  vault_protocol_upper = "${var.istio_mode ? "HTTP" : "HTTPS"}"
+
+  // In istio mode, ensure Vault only listens on loopback to ensure
+  // traffic has passed through the Istio proxy (Envoy)
+  vault_listener = "${var.istio_mode ? "127.0.0.1:8200" : "0.0.0.0:8200"}"
+
+  // The istio-proxy will ensure mTLS, so disable at the Vault level
+  vault_disable_tls = "${var.istio_mode ? "1" : "0"}"
+}

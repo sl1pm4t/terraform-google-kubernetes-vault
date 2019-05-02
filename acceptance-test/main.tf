@@ -1,8 +1,13 @@
-variable google_project {}
-variable google_region {}
+variable google_project {
+  default = "not-a-real-project"
+}
+
+variable google_region {
+  default = "us-west1"
+}
 
 variable kube_context {
-  default = ""
+  default = "no-context"
 }
 
 provider google {
@@ -11,7 +16,8 @@ provider google {
 }
 
 provider kubernetes {
-  config_context = "${var.kube_context}"
+  config_context   = "${var.kube_context}"
+  load_config_file = false
 }
 
 resource kubernetes_namespace vault {

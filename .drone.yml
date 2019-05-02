@@ -12,6 +12,17 @@ steps:
     commands:
       - terraform init -input=false
       - terraform validate -check-variables=false
+    when:
+      event:
+        - pull_request
+
+  - name: release-dry-run
+    image: gtramontina/semantic-release:15.13.3
+    commands:
+      - semantic-release --dry-run
+    when:
+      event:
+        - pull_request
 
   - name: release
     image: gtramontina/semantic-release:15.13.3

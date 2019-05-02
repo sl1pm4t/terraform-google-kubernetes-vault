@@ -6,6 +6,11 @@ steps:
     image: docker:git
     commands:
       - git fetch --tags
+    when:
+      event:
+        - push
+      branch:
+        - master
 
   - name: validate
     image: hashicorp/terraform:0.11.13
@@ -15,14 +20,7 @@ steps:
     when:
       event:
         - pull_request
-
-  - name: release-dry-run
-    image: gtramontina/semantic-release:15.13.3
-    commands:
-      - semantic-release --dry-run
-    when:
-      event:
-        - pull_request
+        - push
 
   - name: release
     image: gtramontina/semantic-release:15.13.3

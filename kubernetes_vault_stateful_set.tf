@@ -97,13 +97,13 @@ EOF
 
           port {
             container_port = 8200
-            name           = "vault-port"
+            name           = "https-vault"
             protocol       = "TCP"
           }
 
           port {
             container_port = 8201
-            name           = "cluster-port"
+            name           = "tcp-cluster"
             protocol       = "TCP"
           }
 
@@ -165,7 +165,7 @@ EOF
 
           env {
             name  = "KMS_KEY_ID"
-            value = "${google_kms_crypto_key.vault_init.id}"
+            value = "${data.google_kms_crypto_key.vault_init.name}"
           }
 
           env {

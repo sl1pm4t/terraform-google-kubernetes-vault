@@ -23,7 +23,7 @@ resource kubernetes_service vault_lb {
     }
 
     port {
-      name        = "vault-port"
+      name        = "https-vault"
       port        = 443
       target_port = 8200
       protocol    = "TCP"
@@ -43,7 +43,7 @@ resource kubernetes_service vault {
     }
 
     annotations {
-      "cloud.google.com/app-protocols" = "{\"vault-port\":\"HTTPS\"}"
+      "cloud.google.com/app-protocols" = "{\"https-vault\":\"HTTPS\"}"
     }
   }
 
@@ -55,7 +55,7 @@ resource kubernetes_service vault {
     }
 
     port {
-      name        = "vault-port"
+      name        = "https-vault"
       port        = 8200
       target_port = 8200
       protocol    = "TCP"

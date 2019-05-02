@@ -11,14 +11,16 @@ data "template_file" "env" {
   
 export VAULT_ADDR="https://$${addr}"
 export VAULT_TOKEN="$${token}"
-$${ca}
-  
+
+cat '$${ca}' > vault_ca.pem
+
+export VAULT_CAPATH=vault_ca.pem
 EOF
 
   vars {
     addr  = "${local.load_balancer_address}"
     token = "${data.google_kms_secret.root_token.plaintext}"
-    ca    = "${join("", formatlist("export VAULT_CAPATH=%s", local_file.vault_ca.*.filename))}"
+    ca    = "${join("", tls_self_signed_cert.vault_ca.*.cert_pem)}"
   }
 }
 
@@ -35,5 +37,5 @@ output "token_decrypt_command" {
 }
 
 output "vault_ca_pem" {
-  value = "${tls_self_signed_cert.vault_ca.cert_pem}"
+  value = "${join("", tls_self_signed_cert.vault_ca.*.cert_pem)}"
 }

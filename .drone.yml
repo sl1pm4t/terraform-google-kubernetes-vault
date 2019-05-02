@@ -1,0 +1,13 @@
+kind: pipeline
+name: default
+
+steps:
+  - name: fetch-tags
+    image: docker:git
+    commands:
+      - git fetch --tags
+
+  - name: validate
+    image: hashicorp/terraform:0.11.13
+    commands:
+      - terraform validate -check-variables=false

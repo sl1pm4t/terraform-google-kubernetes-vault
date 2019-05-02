@@ -16,16 +16,6 @@ steps:
       event:
         - pull_request
 
-  - name: acctest-plan
-    image: hashicorp/terraform:0.11.13
-    commands:
-      - cd acceptance-test
-      - terraform init -input=false
-      - terraform plan -input=false
-    when:
-      event:
-        - pull_request
-
   - name: release-dry-run
     image: gtramontina/semantic-release:15.13.3
     commands:

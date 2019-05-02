@@ -12,3 +12,16 @@ steps:
     commands:
       - terraform init -input=false
       - terraform validate -check-variables=false
+
+  - name: release
+    image: gtramontina/semantic-release:15.13.3
+    environment:
+      GITHUB_TOKEN:
+        from_secret: github_token
+    commands:
+      - semantic-release
+    when:
+      event:
+        - push
+      branch:
+        - master

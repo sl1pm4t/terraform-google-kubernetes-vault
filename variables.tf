@@ -58,13 +58,13 @@ variable kubernetes_namespace {
 }
 
 variable vault_init_image_repository {
-  default     = "registry.hub.docker.com/sethvargo/vault-init"
+  default     = "registry.hub.docker.com/mmorrison/vault-init"
   description = "The docker image repository of the `vault-init` image"
 }
 
 variable vault_init_image_tag {
   description = "Docker image tag of 'vault-init' container"
-  default     = "1.0.0"
+  default     = "2.0.2"
 }
 
 variable vault_image_repository {

@@ -3,7 +3,7 @@ output "region" {
 }
 
 output "address" {
-  value = "${coalesce(var.vault_load_balancer_ip, join("", google_compute_address.vault.*.address))}"
+  value = "${local.load_balancer_address}"
 }
 
 data "template_file" "env" {

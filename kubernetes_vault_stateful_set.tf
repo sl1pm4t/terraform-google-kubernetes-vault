@@ -60,7 +60,8 @@ resource kubernetes_stateful_set vault {
 api_addr     = "https://${local.load_balancer_address}"
 cluster_addr = "https://$(POD_IP_ADDR):8201"
 
-ui = true
+ui        = true
+log_level = "Info"
 
 seal "gcpckms" {
   disabled   = "false" # set to true during migration
@@ -160,7 +161,7 @@ EOF
 
           env {
             name  = "KMS_KEY_ID"
-            value = "${google_kms_crypto_key.vault_init.name}"
+            value = "${google_kms_crypto_key.vault_init.id}"
           }
 
           env {
@@ -177,6 +178,17 @@ EOF
             name  = "VAULT_AUTO_UNSEAL"
             value = "true"
           }
+
+          # env {
+          #   name  = "GRPC_GO_LOG_SEVERITY_LEVEL"
+          #   value = "info"
+          # }
+
+
+          # env {
+          #   name  = "GODEBUG"
+          #   value = "http2debug=2"
+          # }
 
           volume_mount {
             name       = "vault-service-account"

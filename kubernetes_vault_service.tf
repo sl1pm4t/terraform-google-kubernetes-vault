@@ -23,7 +23,7 @@ resource kubernetes_service vault_lb {
     }
 
     port {
-      name        = "${local.vault_protocol}-vault"
+      name        = "${local.vault_service_protocol}-vault"
       port        = 443
       target_port = 8200
       protocol    = "TCP"
@@ -43,7 +43,7 @@ resource kubernetes_service vault {
     }
 
     annotations {
-      "cloud.google.com/app-protocols" = "{\"${local.vault_protocol}-vault\":\"HTTPS\"}"
+      "cloud.google.com/app-protocols" = "{\"${local.vault_service_protocol}-vault\":\"HTTPS\"}"
     }
   }
 
@@ -55,7 +55,7 @@ resource kubernetes_service vault {
     }
 
     port {
-      name        = "${local.vault_protocol}-vault"
+      name        = "${local.vault_service_protocol}-vault"
       port        = 8200
       target_port = 8200
       protocol    = "TCP"
@@ -81,7 +81,7 @@ resource kubernetes_service vault_cluster {
     }
 
     port {
-      name        = "${local.vault_protocol}-cluster"
+      name        = "tcp-cluster"
       port        = 8201
       target_port = 8201
       protocol    = "TCP"

@@ -30,8 +30,9 @@ locals {
 
 # Istio Support
 locals {
-  vault_protocol       = "${var.istio_mode ? "http" : "https"}"
-  vault_protocol_upper = "${var.istio_mode ? "HTTP" : "HTTPS"}"
+  vault_listener_scheme  = "${var.istio_mode ? "http" : "https"}"
+  vault_service_protocol = "${var.istio_mode ? "http" : "http2"}"
+  vault_protocol_upper   = "${var.istio_mode ? "HTTP" : "HTTPS"}"
 
   // In istio mode, ensure Vault only listens on loopback to ensure
   // traffic has passed through the Istio proxy (Envoy)

@@ -58,7 +58,7 @@ resource kubernetes_stateful_set vault {
 
             value = <<EOF
 api_addr     = "https://${local.load_balancer_address}"
-cluster_addr = "${local.vault_protocol}://$(POD_IP_ADDR):8201"
+cluster_addr = "https://$(POD_IP_ADDR):8201"
 
 ui = true
 
@@ -92,13 +92,13 @@ EOF
 
           port {
             container_port = 8200
-            name           = "${local.vault_protocol}-vault"
+            name           = "${local.vault_service_protocol}-vault"
             protocol       = "TCP"
           }
 
           port {
             container_port = 8201
-            name           = "${local.vault_protocol}-cluster"
+            name           = "tcp-cluster"
             protocol       = "TCP"
           }
 
@@ -170,7 +170,7 @@ EOF
 
           env {
             name  = "VAULT_ADDR"
-            value = "${local.vault_protocol}://127.0.0.1:8200"
+            value = "${local.vault_listener_scheme}://127.0.0.1:8200"
           }
 
           env {

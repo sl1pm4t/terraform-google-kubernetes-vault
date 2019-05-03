@@ -81,9 +81,10 @@ resource kubernetes_service vault_cluster {
     }
 
     port {
-      name     = "https-cluster"
-      port     = 8201
-      protocol = "TCP"
+      name        = "${local.vault_protocol}-cluster"
+      port        = 8201
+      target_port = 8201
+      protocol    = "TCP"
     }
   }
 }

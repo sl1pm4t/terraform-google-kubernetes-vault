@@ -47,7 +47,7 @@ Based on [Kelsey Hightower](https://github.com/kelseyhightower/vault-on-google-k
 | Name                  | Description                                                                                                        |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | address               | Address of the load balancer                                                                                       |
-| env                   | Script which exports this Vault to the environment variables, e.g. `VAULT_ADDR`, `VAULT_TOKEN`, and `VAULT_CAPATH` |
+| env                   | Script which exports this Vault to the environment variables, e.g. `VAULT_ADDR`, `VAULT_TOKEN`. The TLS cert will be written to `VAULT_CAPATH`, which can be pre-set or defaults to `vault_ca.pem`. |
 | region                | Google Region of this module                                                                                       |
 | token                 | Vault Root Token                                                                                                   |
 | token_decrypt_command | Script which extracts the encrypted Vault Root Token                                                               |

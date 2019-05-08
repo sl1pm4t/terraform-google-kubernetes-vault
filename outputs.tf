@@ -10,13 +10,15 @@ output "address" {
 
 data "template_file" "env" {
   template = <<EOF
-  
+VAULT_CAPATH="$$$${VAULT_CAPATH:-vault_ca.pem}"
 export VAULT_ADDR="https://$${addr}"
 export VAULT_TOKEN="$${token}"
 
-cat '$${ca}' > vault_ca.pem
+cat <<EOPEM > $VAULT_CAPATH
+$${ca}
+EOPEM
 
-export VAULT_CAPATH=vault_ca.pem
+export VAULT_CAPATH="$VAULT_CAPATH"
 EOF
 
   vars {
@@ -27,7 +29,7 @@ EOF
 }
 
 output "env" {
-  description = "Script which exports this Vault to the environment variables, e.g. `VAULT_ADDR`, `VAULT_TOKEN`, and `VAULT_CAPATH`"
+  description = "Script which exports this Vault to the environment variables, e.g. `VAULT_ADDR`, `VAULT_TOKEN`. The TLS cert will be written to `VAULT_CAPATH`, which can be pre-set or defaults to `vault_ca.pem`."
   value = "${coalesce(data.template_file.env.rendered, "")}"
 }
 

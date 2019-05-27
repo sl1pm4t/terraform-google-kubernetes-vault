@@ -35,7 +35,7 @@ output "env" {
 
 output "token" {
   description = "Vault Root Token"
-  value = "${data.google_kms_secret.root_token.plaintext}"
+  value = "${chomp(data.google_kms_secret.root_token.plaintext)}"
 }
 
 output "token_decrypt_command" {
